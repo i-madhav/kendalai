@@ -1,5 +1,7 @@
-import { useState, FormEvent, ChangeEvent } from "react";
+import { useState, FormEvent, ChangeEvent} from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import { RootState } from "@/app/(service)/store/store";
 
 interface PropertyFormData {
   name: string;
@@ -12,12 +14,8 @@ interface PropertyFormData {
   images: string;
 }
 
-export default function PropertyForm({
-  setShowPropertyForm,
-}: {
-  setShowPropertyForm: (show: boolean) => void;
-}) {
-  const router = useRouter();
+export default function PropertyForm({setShowPropertyForm}: {setShowPropertyForm: (show: boolean) => void}) {
+    const router = useRouter();
   const [formData, setFormData] = useState<PropertyFormData>({
     name: "",
     price: 0,
@@ -28,7 +26,7 @@ export default function PropertyForm({
     squareFeet: 0,
     images: "",
   });
-  const [loading, setLoading] = useState(false);
+  const[loading, setLoading] = useState(false);
 
   const [errors, setErrors] = useState<
     Partial<Record<keyof PropertyFormData, string>>
@@ -59,17 +57,15 @@ export default function PropertyForm({
     const newErrors: Partial<Record<keyof PropertyFormData, string>> = {};
     if (!formData.name) newErrors.name = "Property name is required";
     if (formData.price <= 0) newErrors.price = "Price must be positive";
-    if (!formData.description)
-      newErrors.description = "Description is required";
+    if (!formData.description) newErrors.description = "Description is required";
     if (formData.bedrooms < 0) newErrors.bedrooms = "Must be 0 or more";
     if (formData.bathrooms < 0) newErrors.bathrooms = "Must be 0 or more";
-    if (formData.squareFeet <= 0)
-      newErrors.squareFeet = "Must be greater than 0";
+    if (formData.squareFeet <= 0) newErrors.squareFeet = "Must be greater than 0";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
+  const propertyDataSlice = useSelector((state: RootState) => state.propertyInformation);
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
@@ -82,8 +78,9 @@ export default function PropertyForm({
         bathrooms: formData.bathrooms,
         squareFeet: formData.squareFeet,
         images: formData.images,
+        address: propertyDataSlice.address,
+        neighborhood: propertyDataSlice.neighborhood,
       };
-
       try {
         setLoading(true);
         const response = await fetch("/api/create-property", {
@@ -91,13 +88,12 @@ export default function PropertyForm({
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ propertyData }),
+          body: JSON.stringify({propertyData}),
         });
 
-        if (!response.ok) {
+        if(!response.ok){
           throw new Error("Failed to create property");
         }
-
         router.push("/home");
       } catch (error) {
         console.error("Error creating property:", error);
@@ -121,15 +117,9 @@ export default function PropertyForm({
         </h1>
       </div>
 
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-8 bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-[0_0_15px_rgba(0,0,0,0.1)] border border-white/20"
-      >
+      <form onSubmit={handleSubmit} className="space-y-8 bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-[0_0_15px_rgba(0,0,0,0.1)] border border-white/20">
         <div>
-          <label
-            htmlFor="name"
-            className="block text-sm font-semibold text-indigo-900"
-          >
+          <label htmlFor="name" className="block text-sm font-semibold text-indigo-900">
             Property Name
           </label>
           <input
@@ -140,17 +130,12 @@ export default function PropertyForm({
             onChange={handleChange}
             className="mt-1 block w-full rounded-lg border border-indigo-500 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 bg-white/50 p-3"
           />
-          {errors.name && (
-            <span className="text-pink-600 text-sm mt-1">{errors.name}</span>
-          )}
+          {errors.name && <span className="text-pink-600 text-sm mt-1">{errors.name}</span>}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label
-              htmlFor="price"
-              className="block text-sm font-semibold text-indigo-900"
-            >
+            <label htmlFor="price" className="block text-sm font-semibold text-indigo-900">
               Price
             </label>
             <div className="mt-1 relative rounded-lg shadow-sm">
@@ -167,16 +152,11 @@ export default function PropertyForm({
                 className="pl-7 block w-full rounded-lg border border-indigo-500 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 bg-white/50 p-3"
               />
             </div>
-            {errors.price && (
-              <span className="text-pink-600 text-sm mt-1">{errors.price}</span>
-            )}
+            {errors.price && <span className="text-pink-600 text-sm mt-1">{errors.price}</span>}
           </div>
 
           <div>
-            <label
-              htmlFor="propertyType"
-              className="block text-sm font-semibold text-indigo-900"
-            >
+            <label htmlFor="propertyType" className="block text-sm font-semibold text-indigo-900">
               Property Type
             </label>
             <select
@@ -196,10 +176,7 @@ export default function PropertyForm({
         </div>
 
         <div>
-          <label
-            htmlFor="description"
-            className="block text-sm font-semibold text-indigo-900"
-          >
+          <label htmlFor="description" className="block text-sm font-semibold text-indigo-900">
             Description
           </label>
           <textarea
@@ -210,19 +187,12 @@ export default function PropertyForm({
             rows={4}
             className="mt-1 block w-full rounded-lg border border-indigo-500 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 bg-white/50"
           />
-          {errors.description && (
-            <span className="text-pink-600 text-sm mt-1">
-              {errors.description}
-            </span>
-          )}
+          {errors.description && <span className="text-pink-600 text-sm mt-1">{errors.description}</span>}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <label
-              htmlFor="bedrooms"
-              className="block text-sm font-semibold text-indigo-900"
-            >
+            <label htmlFor="bedrooms" className="block text-sm font-semibold text-indigo-900">
               Bedrooms
             </label>
             <div className="mt-1 relative rounded-lg shadow-sm">
@@ -238,18 +208,11 @@ export default function PropertyForm({
                 className="pl-8 block w-full rounded-lg border border-indigo-500 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 bg-white/50 p-3"
               />
             </div>
-            {errors.bedrooms && (
-              <span className="text-pink-600 text-sm mt-1">
-                {errors.bedrooms}
-              </span>
-            )}
+            {errors.bedrooms && <span className="text-pink-600 text-sm mt-1">{errors.bedrooms}</span>}
           </div>
 
           <div>
-            <label
-              htmlFor="bathrooms"
-              className="block text-sm font-semibold text-indigo-900"
-            >
+            <label htmlFor="bathrooms" className="block text-sm font-semibold text-indigo-900">
               Bathrooms
             </label>
             <div className="mt-1 relative rounded-lg shadow-sm">
@@ -265,18 +228,11 @@ export default function PropertyForm({
                 className="pl-8 block w-full rounded-lg border border-indigo-500 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 bg-white/50 p-3"
               />
             </div>
-            {errors.bathrooms && (
-              <span className="text-pink-600 text-sm mt-1">
-                {errors.bathrooms}
-              </span>
-            )}
+            {errors.bathrooms && <span className="text-pink-600 text-sm mt-1">{errors.bathrooms}</span>}
           </div>
 
           <div>
-            <label
-              htmlFor="squareFeet"
-              className="block text-sm font-semibold text-indigo-900"
-            >
+            <label htmlFor="squareFeet" className="block text-sm font-semibold text-indigo-900">
               Square Feet
             </label>
             <div className="mt-1 relative rounded-lg shadow-sm">
@@ -293,19 +249,12 @@ export default function PropertyForm({
                 className="pl-8 block w-full rounded-lg shadow-sm focus:ring-2 border border-indigo-500 focus:border-transparent transition-all duration-200 bg-white/50 p-3"
               />
             </div>
-            {errors.squareFeet && (
-              <span className="text-pink-600 text-sm mt-1">
-                {errors.squareFeet}
-              </span>
-            )}
+            {errors.squareFeet && <span className="text-pink-600 text-sm mt-1">{errors.squareFeet}</span>}
           </div>
         </div>
 
         <div>
-          <label
-            htmlFor="images"
-            className="block text-sm font-semibold text-indigo-900"
-          >
+          <label htmlFor="images" className="block text-sm font-semibold text-indigo-900">
             Image URL
           </label>
           <input

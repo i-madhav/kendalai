@@ -5,8 +5,6 @@ export async function POST(request: NextRequest) {
     const prisma = new PrismaClient();
     try {
         const {propertyData} = await request.json();
-        console.log("this is received data");
-        console.log(propertyData);
         const address = await prisma.location.create({
             data: {
                 name: propertyData.address.name,
