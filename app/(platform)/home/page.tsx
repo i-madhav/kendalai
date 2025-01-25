@@ -78,7 +78,7 @@ useEffect(() => {
         <div className="w-[50%] h-full  overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
           {loading ? (
             <div className="p-4">
-              {[...Array(5)].map((_, index) => (
+              {[...Array(5)]?.map((_, index) => (
                 <SkeletonCard key={index} />
               ))}
             </div>
