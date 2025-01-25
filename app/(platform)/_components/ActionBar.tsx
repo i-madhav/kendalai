@@ -10,7 +10,7 @@ const ActionBar = () => {
   const [searchResult, setSearchResult] = useState<google.maps.places.Autocomplete | null>(null);  
   const dispatch = useDispatch();  
   const { isLoaded } = useJsApiLoader({  
-    googleMapsApiKey: "AIzaSyABa6cE3AqD4LlELbzI7me8GOzaEUo0vVA",  
+    googleMapsApiKey:process.env.NEXT_PUBLIC_YOUTUBE_API_KEY!,  
     libraries: ['places']
   });  
 

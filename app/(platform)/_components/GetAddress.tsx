@@ -16,7 +16,7 @@ const GetAddress = ({setShowPropertyForm}: {setShowPropertyForm: (show: boolean)
   const [currentStep, setCurrentStep] = useState(0);
   const [searchResult, setSearchResult] = useState<google.maps.places.Autocomplete | null>(null);
   const {isLoaded} = useJsApiLoader({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
+    googleMapsApiKey: process.env.NEXT_PUBLIC_YOUTUBE_API_KEY!,
     libraries: ['places'],
   })
   const dispatch = useDispatch();

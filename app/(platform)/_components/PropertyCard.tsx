@@ -44,10 +44,9 @@ const PropertyCard: React.FC<PropertyData> = ({
       <div
         onClick={handleClick}
         className={`${
-          selectedProperty?.id === id ? "border-[5px] border-black" : ""
+          selectedProperty?.id === id ? "!border-[3px] !border-black" : ""
         } relative rounded-3xl overflow-hidden h-fit shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-gradient-to-r from-white to-gray-50 border border-gray-200 m-4 transform hover:-translate-y-2 cursor-pointer`}
       >
-        {/* Glowy Effect */}
         <div className="absolute inset-0 bg-gradient-to-tr from-blue-300 via-purple-300 to-pink-300 opacity-30 blur-xl"></div>
 
         <div className="relative h-56 w-full">
