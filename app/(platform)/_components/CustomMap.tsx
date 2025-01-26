@@ -23,6 +23,9 @@ interface Location {
 
 type PropertyType = "VILLA" | "COMMERCIAL" | "APARTMENT" | "HOUSE" | "LAND";
 
+const DEFAULT_LAT = 40.7128; // New York City coordinates as an example
+const DEFAULT_LNG = -74.0060;
+
 const CustomMap = ({ properties }: { properties: PropertyData[] }) => {
   const [selectedProperty, setSelectedProperty] = useState<PropertyData | null>(
     null
@@ -41,8 +44,8 @@ const CustomMap = ({ properties }: { properties: PropertyData[] }) => {
   };
   const center = useMemo(
     () => ({
-      lat: lat || properties[0]?.address?.lat,
-      lng: lng || properties[0]?.address?.lng,
+      lat: lat || (properties.length > 0 ? properties[0]?.address?.lat : DEFAULT_LAT),
+      lng: lng || (properties.length > 0 ? properties[0]?.address?.lng : DEFAULT_LNG),
     }),
     [lat, lng, properties]
   );
