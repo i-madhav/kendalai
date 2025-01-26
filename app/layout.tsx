@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { ReduxProvider } from "./(service)/store/Provider";
 import Navbar from "./(platform)/_components/Navbar";
+import GoogleMapsLoader from "./(platform)/_components/GoogleMapsLoader";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -29,7 +30,11 @@ export default function RootLayout({
       </head>
       <body className={`antialiased ${poppins.className}`}>
         <Navbar />
-        <ReduxProvider>{children}</ReduxProvider>
+        <ReduxProvider>
+          <GoogleMapsLoader>
+            {children}
+          </GoogleMapsLoader>
+        </ReduxProvider>
       </body>
     </html>
   );

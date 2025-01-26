@@ -9,10 +9,6 @@ import Link from 'next/link';
 const ActionBar = () => {  
   const [searchResult, setSearchResult] = useState<google.maps.places.Autocomplete | null>(null);  
   const dispatch = useDispatch();  
-  const { isLoaded } = useJsApiLoader({  
-    googleMapsApiKey:process.env.NEXT_PUBLIC_YOUTUBE_API_KEY!,  
-    libraries: ['places']
-  });  
 
   const searchRef = useRef<HTMLInputElement>(null);  
 
@@ -33,10 +29,6 @@ const ActionBar = () => {
   const onLoad = (autocomplete: google.maps.places.Autocomplete) => {  
     setSearchResult(autocomplete);  
   };  
-
-  if (!isLoaded) {  
-    return <div>Loading...</div>;  
-  }  
 
   return (  
     <div className="flex items-center gap-4 p-4 bg-white rounded-lg shadow-sm">  
@@ -67,9 +59,9 @@ const ActionBar = () => {
         </button>  
         <Link   
           href="/listing"  
-          className="px-4 py-2 border rounded-lg hover:bg-gray-50 bg-black text-white"  
+          className="px-4 py-2 border rounded-lg bg-black text-white"  
         >  
-          Property  
+         Add Property  
         </Link>  
       </div>  
     </div>  
