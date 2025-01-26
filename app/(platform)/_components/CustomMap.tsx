@@ -87,7 +87,7 @@ const CustomMap = ({ properties }: { properties: PropertyData[] }) => {
       zoom={13}
       options={mapOptions}
     >
-      {properties.map((property) => (
+      {properties?.map((property) => (
         <Marker
           key={property.id}
           position={{ lat: property?.address?.lat, lng: property?.address?.lng }}
