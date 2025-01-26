@@ -1,6 +1,8 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import propertyImg from "@/public/assests/img/download.jpg";
+import { useSession } from "next-auth/react";
 
 interface PropertyData {
   id: string;
@@ -34,7 +36,7 @@ const PropertyPopup: React.FC<{
   onClose: () => void;
 }> = ({ property, isOpen, onClose }) => {
   if (!isOpen) return null;
-
+  const session = useSession();
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       {/* Overlay */}
@@ -88,7 +90,7 @@ const PropertyPopup: React.FC<{
           </div>
 
           <div className="flex gap-4">
-            <Link href={`/edit/${property.id}`}>
+            <Link href={`${session.data ? `/edit/${property.id}` : "/api/auth/signin"}`}>
               <button className="mt-4 px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700 transition-colors duration-300">
                 Edit
               </button>

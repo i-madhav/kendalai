@@ -4,6 +4,7 @@ import "./globals.css";
 import { ReduxProvider } from "./(service)/store/Provider";
 import Navbar from "./(platform)/_components/Navbar";
 import GoogleMapsLoader from "./(platform)/_components/GoogleMapsLoader";
+import { Providers } from "./provider";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -29,12 +30,12 @@ export default function RootLayout({
         ></script>
       </head>
       <body className={`antialiased ${poppins.className}`}>
-        <Navbar />
-        <ReduxProvider>
-          <GoogleMapsLoader>
-            {children}
-          </GoogleMapsLoader>
-        </ReduxProvider>
+        <Providers>
+          <Navbar />
+          <ReduxProvider>
+            <GoogleMapsLoader>{children}</GoogleMapsLoader>
+          </ReduxProvider>
+        </Providers>
       </body>
     </html>
   );

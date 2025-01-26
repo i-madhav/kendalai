@@ -1,17 +1,17 @@
 'use client'  
 import React, { useState, useRef } from 'react'  
-import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';  
+import { Autocomplete } from '@react-google-maps/api';  
 import { useDispatch } from 'react-redux';  
 import { setLatLog } from '../../(service)/store/slice/ActionBarLatLog';  
 import { Search } from 'lucide-react'  
 import Link from 'next/link';  
+import { useSession } from 'next-auth/react';
 
 const ActionBar = ({setSearchedProperty, setSelectedCategory}:{setSearchedProperty:(value:string)=>void, setSelectedCategory:(value:string)=>void}) => {  
   const [searchResult, setSearchResult] = useState<google.maps.places.Autocomplete | null>(null);  
   const dispatch = useDispatch();  
-
+  const session = useSession();
   const searchRef = useRef<HTMLInputElement>(null);  
-
   const [isCategoryOpen, setIsCategoryOpen] = useState<boolean>(false);
 
   const categories = ['VILLA', 'APARTMENT', 'HOUSE', 'COMMERCIAL', 'LAND'];
@@ -93,7 +93,7 @@ const ActionBar = ({setSearchedProperty, setSelectedCategory}:{setSearchedProper
           )}
         </div>
         <Link   
-          href="/listing"  
+          href={`${session.data ? "/listing" : "/api/auth/signin"}`} 
           className="px-4 py-2 border rounded-lg bg-black text-white"  
         >  
          Add Property  
