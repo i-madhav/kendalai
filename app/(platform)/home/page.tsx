@@ -80,7 +80,7 @@ useEffect(() => {
       <ActionBar setSearchedProperty={setSearchedProperty} setSelectedCategory={setSelectedCategory}/>
       <div className="flex h-[37.4rem]">
         <div className="w-[50%] h-full  overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-          {loading ? (
+          {loading && properties.length === 0 ? (
             <div className="p-4">
               {[...Array(5)]?.map((_, index) => (
                 <SkeletonCard key={index} />
@@ -92,7 +92,7 @@ useEffect(() => {
         </div>
         <div className="w-[50%] h-full ">
           <div className=" flex items-center justify-center h-full">
-            {loading ? <ShimmerMap /> : <CustomMap properties={properties}/>}
+            {loading && properties.length === 0 ? <ShimmerMap /> : <CustomMap properties={properties}/>}
           </div>
         </div>
       </div>
