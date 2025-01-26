@@ -30,11 +30,7 @@ const PropertyCard: React.FC<PropertyData> = ({
   const selectedProperty = useSelector(
     (state: RootState) => state.selectedProperty.selectedP
   );
-
-  console.log("This is the selected property");
-  console.log(selectedProperty);
   const [isOpen, setIsOpen] = useState(false);
-  const dispatch = useDispatch();
   const handleClick = () => {
     setIsOpen(true);
   };

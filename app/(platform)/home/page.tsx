@@ -12,6 +12,11 @@ const SkeletonCard = () => (
   </div>
 );
 
+const ShimmerMap = () => (
+  <div className="w-full h-full flex items-center justify-center animate-pulse">
+    <div className="w-3/4 h-3/4 bg-gray-200 rounded-lg"></div>
+  </div>
+);
 
 export interface PropertyData {
   id: string;
@@ -48,13 +53,13 @@ const HomePage = () => {
 const [properties, setProperties] = useState<PropertyData[]>([]);
 const [loading, setLoading] = useState(true);
 const [error, setError] = useState<string | null>(null);
-const[selectedProperty, setSelectedProperty] = useState<string>();
-
+const[searchedProperty, setSearchedProperty] = useState<string>("paschim");
+const[selectedCategory, setSelectedCategory] = useState<string>("");
 
 useEffect(() => {
   const fetchProperties = async () => {
     try {
-      const response = await fetch('/api/get-property?query=paschim');
+      const response = await fetch(`/api/get-property?query=${searchedProperty?.trim().toLocaleLowerCase()}&category=${selectedCategory}`);
       if (!response.ok) {
         throw new Error('Failed to fetch properties');
       }
@@ -66,14 +71,13 @@ useEffect(() => {
       setLoading(false);
     }
   };
-
   fetchProperties();
-}, []);
+}, [searchedProperty, selectedCategory]);
 
 
   return (
     <div>
-      <ActionBar />
+      <ActionBar setSearchedProperty={setSearchedProperty} setSelectedCategory={setSelectedCategory}/>
       <div className="flex h-[37.4rem]">
         <div className="w-[50%] h-full  overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
           {loading ? (
@@ -88,7 +92,7 @@ useEffect(() => {
         </div>
         <div className="w-[50%] h-full ">
           <div className=" flex items-center justify-center h-full">
-            <CustomMap properties={properties}/>
+            {loading ? <ShimmerMap /> : <CustomMap properties={properties}/>}
           </div>
         </div>
       </div>

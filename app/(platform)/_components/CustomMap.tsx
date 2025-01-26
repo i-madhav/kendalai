@@ -39,7 +39,7 @@ const CustomMap = ({ properties }: {
         height: '100%',  
         borderRadius: '20px'  
     };  
-    const center = { lat:lat || 28.6691255 , lng: lng || 77.220644 };  
+    const center = { lat:lat || properties[0]?.address?.lat , lng: lng || properties[0]?.address?.lng };  
     const mapOptions = {  
         zoomControl: false,  
         streetViewControl: false,  
@@ -52,9 +52,6 @@ const CustomMap = ({ properties }: {
     const handleInfoWindowClose = useCallback(() => {  
         setSelectedProperty(null);  
     }, []);  
-
-    // Define the position for the custom black dot marker
-    const customMarkerPosition = { lat: 28.6691255, lng: 77.220644 };
 
     if (loadError) return <div>Error loading maps</div>;  
     if (!isLoaded) return <div>Loading...</div>;  
@@ -83,11 +80,11 @@ const CustomMap = ({ properties }: {
                         strokeWeight: 2,
                         scale: 8,
                         anchor: new google.maps.Point(0, 0),
-                    }} // Set selected property on marker click
+                    }} 
                 />  
             ))}  
 
-            {selectedProperty && (  // Show InfoWindow if a property is selected
+            {selectedProperty && ( 
                 <InfoWindow 
                     position={{ lat: selectedProperty.address.lat, lng: selectedProperty.address.lng }} 
                     onCloseClick={handleInfoWindowClose} 
@@ -109,22 +106,6 @@ const CustomMap = ({ properties }: {
                 </InfoWindow> 
             )} 
 
-            {/* Custom Black Dot Marker */}
-            <OverlayView
-                position={customMarkerPosition}
-                mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-            >
-                <div
-                    style={{
-                        width: '12px',
-                        height: '12px',
-                        backgroundColor: 'black',
-                        borderRadius: '50%',
-                        border: '2px solid white',
-                        boxShadow: '0 0 3px rgba(0,0,0,0.5)',
-                    }}
-                />
-            </OverlayView>
         </GoogleMap>  
     );  
 };  
