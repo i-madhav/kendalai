@@ -34,8 +34,9 @@ type LocationType = "ADDRESS" | "NEIGHBORHOOD" | "CITY" | "STATE";
 const SideBar = ({properties}:{properties:PropertyData[]}) => {
   return (
     <div className="grid grid-cols-2 gap-3">
-      {properties.map((property) => (
+      {properties?.map((property) => (
         <PropertyCard 
+          key={property.id}
           {...property}
         />
       ))}
