@@ -78,8 +78,8 @@ useEffect(() => {
   return (
     <div>
       <ActionBar setSearchedProperty={setSearchedProperty} setSelectedCategory={setSelectedCategory}/>
-      <div className="flex h-[37.4rem]">
-        <div className="w-[50%] h-full  overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+      <div className="md:block lg:flex h-[37.4rem]">
+        <div className="w-full lg:w-[50%] h-full  overflow-y-scroll scrollbar">
           {loading && properties.length === 0 ? (
             <div className="p-4">
               {[...Array(5)]?.map((_, index) => (
@@ -90,7 +90,7 @@ useEffect(() => {
             <SideBar properties={properties} />
           )}
         </div>
-        <div className="w-[50%] h-full ">
+        <div className="w-full lg:w-[50%] h-full ">
           <div className=" flex items-center justify-center h-full">
             {loading && properties.length === 0 ? <ShimmerMap /> : <CustomMap properties={properties}/>}
           </div>

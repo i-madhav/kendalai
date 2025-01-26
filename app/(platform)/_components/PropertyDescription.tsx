@@ -44,7 +44,7 @@ const PropertyPopup: React.FC<{
       ></div>
 
       {/* Popup Container */}
-      <div className="bg-white rounded-3xl p-6 relative z-10 shadow-lg transform transition-all duration-300 w-[50%] h-[90%] overflow-y-auto">
+      <div className="bg-white rounded-3xl p-6 relative z-10 shadow-lg transform transition-all duration-300 w-[90%] md:w-[50%] h-[90%] overflow-y-auto">
         {/* Glowy Background */}
         <div className="absolute inset-0 bg-gradient-to-tr from-blue-300 via-purple-300 to-pink-300 opacity-30 blur-3xl rounded-3xl"></div>
 
