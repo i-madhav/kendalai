@@ -14,7 +14,7 @@ const ActionBar = ({setSearchedProperty, setSelectedCategory}:{setSearchedProper
   const searchRef = useRef<HTMLInputElement>(null);  
   const [isCategoryOpen, setIsCategoryOpen] = useState<boolean>(false);
 
-  const categories = ['VILLA', 'APARTMENT', 'HOUSE', 'COMMERCIAL', 'LAND'];
+  const categories = ['ALL','VILLA', 'APARTMENT', 'HOUSE', 'COMMERCIAL', 'LAND'];
 
   const onPlaceChanged = () => {  
     if (searchResult && searchRef.current) {  
@@ -37,7 +37,6 @@ const ActionBar = ({setSearchedProperty, setSelectedCategory}:{setSearchedProper
   // Handler for Category Selection
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category);
-    setSearchedProperty(category);
     setIsCategoryOpen(false);
   };
 

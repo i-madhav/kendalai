@@ -54,12 +54,12 @@ const [properties, setProperties] = useState<PropertyData[]>([]);
 const [loading, setLoading] = useState(true);
 const [error, setError] = useState<string | null>(null);
 const[searchedProperty, setSearchedProperty] = useState<string>("paschim");
-const[selectedCategory, setSelectedCategory] = useState<string>("");
+const[selectedCategory, setSelectedCategory] = useState<string>("ALL");
 
 useEffect(() => {
   const fetchProperties = async () => {
     try {
-      const response = await fetch(`/api/get-property?query=${searchedProperty?.trim().toLocaleLowerCase()}&category=${selectedCategory}`);
+      const response = await fetch(`/api/get-property?query=${selectedCategory.length === 0 ? searchedProperty?.trim().toLocaleLowerCase() : ""}&category=${selectedCategory}`);
       if (!response.ok) {
         throw new Error('Failed to fetch properties');
       }

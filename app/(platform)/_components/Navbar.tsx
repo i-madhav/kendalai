@@ -7,25 +7,12 @@ const Navbar = () => {
   console.log("This is session data");
   console.log(session.data);
   return (
-    <nav className="bg-white/70 backdrop-blur-sm border-b border-gray-100 shadow-sm px-4 py-3 sticky top-0 z-50">
+    <nav className="bg-white/70 backdrop-blur-sm border-b border-black shadow-sm px-4 py-3 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo/Brand */}
         <Link href="/" className="font-bold text-xl text-gray-700 hover:text-gray-900 transition-colors">
           Kendal Property
         </Link>
-
-        {/* Main Navigation */}
-        <div className="hidden md:flex items-center space-x-8">
-          <Link href="/dashboard" className="text-gray-500 hover:text-gray-800 transition-colors text-sm font-medium">
-            Dashboard
-          </Link>
-          <Link href="/projects" className="text-gray-500 hover:text-gray-800 transition-colors text-sm font-medium">
-            Projects
-          </Link>
-          <Link href="/settings" className="text-gray-500 hover:text-gray-800 transition-colors text-sm font-medium">
-            Settings
-          </Link>
-        </div>
 
         {/* User Menu */}
         <div className="flex items-center space-x-5">

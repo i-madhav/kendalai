@@ -44,8 +44,8 @@ const CustomMap = ({ properties }: { properties: PropertyData[] }) => {
   };
   const center = useMemo(
     () => ({
-      lat: lat || (properties.length > 0 ? properties[0]?.address?.lat : DEFAULT_LAT),
-      lng: lng || (properties.length > 0 ? properties[0]?.address?.lng : DEFAULT_LNG),
+      lat: lat || (properties?.length > 0 ? properties[0]?.address?.lat : DEFAULT_LAT),
+      lng: lng || (properties?.length > 0 ? properties[0]?.address?.lng : DEFAULT_LNG),
     }),
     [lat, lng, properties]
   );
