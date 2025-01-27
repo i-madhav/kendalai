@@ -14,16 +14,7 @@ import propertyImage from "@/public/assests/img/download.jpg";
 import { setSelectedProperty as property } from "@/app/(service)/store/slice/SelectedSlice";
 import { PropertyData } from "@/app/(platform)/home/page";
 
-interface Location {
-  id: string;
-  name: string;
-  lat: number;
-  lng: number;
-}
-
-type PropertyType = "VILLA" | "COMMERCIAL" | "APARTMENT" | "HOUSE" | "LAND";
-
-const DEFAULT_LAT = 40.7128; // New York City coordinates as an example
+const DEFAULT_LAT = 40.7128;
 const DEFAULT_LNG = -74.0060;
 
 const CustomMap = ({ properties }: { properties: PropertyData[] }) => {
@@ -33,7 +24,7 @@ const CustomMap = ({ properties }: { properties: PropertyData[] }) => {
   const { lat, lng } = useSelector((state: RootState) => state.actionBarLatLog);
   const dispatch = useDispatch();
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: "AIzaSyABa6cE3AqD4LlELbzI7me8GOzaEUo0vVA",
+    googleMapsApiKey:process.env.NEXT_PUBLIC_YOUTUBE_API_KEY || "",
     libraries: ["places"],
   });
 
@@ -55,6 +46,7 @@ const CustomMap = ({ properties }: { properties: PropertyData[] }) => {
       streetViewControl: false,
       mapTypeControl: false,
       fullscreenControl: false,
+      reuseMaps: true,
     }),
     []
   );
@@ -74,6 +66,10 @@ const CustomMap = ({ properties }: { properties: PropertyData[] }) => {
     [dispatch]
   );
 
+  const handleMapClick = useCallback(() => {
+    setSelectedProperty(null);
+  }, []);
+
   if (loadError) return <div>Error loading maps</div>;
   if (!isLoaded) return <div>Loading...</div>;
 
@@ -86,6 +82,7 @@ const CustomMap = ({ properties }: { properties: PropertyData[] }) => {
       center={center}
       zoom={13}
       options={mapOptions}
+      onClick={handleMapClick}
     >
       {properties?.map((property) => (
         <Marker
@@ -110,8 +107,10 @@ const CustomMap = ({ properties }: { properties: PropertyData[] }) => {
             lat: selectedProperty.address.lat,
             lng: selectedProperty.address.lng,
           }}
-          onCloseClick={handleInfoWindowClose}
-          onPositionChanged={() => handleDispatchSelected(selectedProperty)}
+          onPositionChanged={() => {
+            handleDispatchSelected(selectedProperty);
+
+          }}
         >
           <div className="rounded-xl shadow-sm w-full relative p-2 bg-gradient-to-tr from-blue-300 via-purple-300 to-pink-300 z-[999999999999999999]">
             <Image
